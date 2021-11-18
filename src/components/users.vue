@@ -1,9 +1,7 @@
 <template>
-    <div class="users">
-        <div v-for="user in users" :key="user.id.value">
-            <user :user="user"/>
-        </div>
-    </div>
+    <b-col class="pb-5" lg="6" sm="12" v-for="user in users" :key="user.id.value">
+        <user :user="user"/>
+    </b-col>
 </template>
 
 <script lang="ts">

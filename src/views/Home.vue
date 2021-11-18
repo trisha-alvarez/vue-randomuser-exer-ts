@@ -1,10 +1,8 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-  </div>
-
-  <div class="row" v-if="users">
-    <users :users="users"/>
+    <b-row align-h="around" v-if="users">
+      <users :users="users"/>
+    </b-row>
   </div>
 </template>
 

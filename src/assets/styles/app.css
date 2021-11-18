@@ -1,0 +1,42 @@
+#app {
+    font-family: 'Roboto', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #2c3e50;
+}
+
+#header {
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+#header h1 {
+    font-family: 'Shippori Antique', sans-serif;
+    font-size: 3.5rem;
+    width: fit-content;
+    margin: 0;
+    line-height: 0.5;
+}
+
+.header-blue {
+    border-bottom: solid #F2F2F2 20px;
+}
+
+.header-yellow {
+    border-bottom: solid #FCE16D 20px;
+}
+
+#nav {
+    padding: 30px;
+}
+
+#nav a {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+    color: #42b983;
+}
