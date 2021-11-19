@@ -40,3 +40,13 @@
 #nav a.router-link-exact-active {
     color: #42b983;
 }
+
+.page-item .page-link {
+    color: #2c3e50 !important;
+}
+
+.page-item.active .page-link {
+    background-color: #FCE16D !important;
+    border-color: #FCE16D !important;
+    color: #2c3e50 !important;
+}

@@ -24,5 +24,10 @@ export interface IUser {
 }
 
 export type UserResults = {
-    results: Array<IUser>
+    results: Array<IUser>,
+    info: {
+        seed: string
+        results: number
+        page: number
+    }
 }
