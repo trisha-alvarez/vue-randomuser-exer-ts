@@ -1,3 +1,5 @@
+import { Ref } from "@vue/reactivity"
+
 export interface IUser {
     gender: string
     name: {
@@ -30,4 +32,10 @@ export type UserResults = {
         results: number
         page: number
     }
+}
+
+export type FetchUserReturn = { 
+    loading: Ref<boolean>, 
+    error: Ref<String>, 
+    result: Ref<UserResults> 
 }
