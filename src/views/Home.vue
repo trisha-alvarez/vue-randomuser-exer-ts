@@ -37,7 +37,7 @@ export default defineComponent({
       usersSeed.value = result.value.info.seed
     })
 
-    watch({gender, noOfResults, page}, async () => {
+    watch([gender, noOfResults, page], async () => {
       const { result } = await useFetchUsersByFilter(page.value, noOfResults.value, gender.value, usersSeed.value)
       users.value = result.value.results
     })
