@@ -5,7 +5,7 @@ import { ref } from "@vue/reactivity"
 export async function useFetchUsersByFilter(page: number, results: number, gender: string, seed: string): Promise<FetchUserReturn> {
     const exc = ExcludedFields.toString()
     const loading = ref<boolean>(true)
-    const error = ref<String>('')
+    const error = ref<string>('')
     const result = ref<UserResults>({
         results: [],
         info: {
