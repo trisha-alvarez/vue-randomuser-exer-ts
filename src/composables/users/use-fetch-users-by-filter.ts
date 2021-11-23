@@ -19,7 +19,7 @@ export async function useFetchUsersByFilter(page: number, results: number, gende
         if(gender === 'all') {
             result.value = await fetch(`/api/?exc=${exc}&page=${page}&results=${results}&seed=${seed}`).then(res => res.json())
         } else {
-            result.value = await fetch(`/api/?exc=${exc}&page=${page}&results=${results}&gender=${gender}&seed=${seed}`).then(res => res.json())
+            result.value = await fetch(`/api/?exc=${exc}&page=${page}&results=${results}&gender=${gender}`).then(res => res.json())
         }
         
     } catch(e) {

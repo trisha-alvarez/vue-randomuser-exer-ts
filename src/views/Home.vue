@@ -1,5 +1,8 @@
 <template>
   <div class="home">
+    <b-row align-h="end">
+      <filters :gender="gender" :noOfResults="noOfResults" @refetchUsers="refetchUsers"/>
+    </b-row>
     <b-row align-h="around" v-if="users">
       <users :users="users"/>
     </b-row>
@@ -14,11 +17,13 @@ import { defineComponent, onMounted, ref, watch } from 'vue'
 import { IUser } from '@/interface/user'
 import { useFetchUsers, useFetchUsersByFilter } from '@/composables/users/index'
 import users from '@/components/users.vue'
+import filters from '../components/filters.vue'
 
 export default defineComponent({
   name: 'Home',
   components: {
-    users
+    users,
+    filters
   },
   setup() {
     // results
@@ -42,10 +47,21 @@ export default defineComponent({
       users.value = result.value.results
     })
 
+    const refetchUsers = async (newGender: string, newNoOfResults: number) => {
+      gender.value = newGender
+      noOfResults.value = newNoOfResults
+
+      const { result } = await useFetchUsersByFilter(page.value, noOfResults.value, gender.value, usersSeed.value)
+      users.value = result.value.results
+    }
+
     return {
       users,
       rows,
-      page
+      page,
+      gender,
+      noOfResults,
+      refetchUsers
     }
   }
 })
