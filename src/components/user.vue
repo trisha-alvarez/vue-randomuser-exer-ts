@@ -1,17 +1,17 @@
 <template>
-    <b-card no-body class="overflow-hidden border-0" style="max-width: 540px;">
+    <b-card no-body class="overflow-hidden border-0 user-card">
         <b-row no-gutters>
             <b-col md="6">
-                <b-card-img :src="$props.user.picture.large" alt="Image" class="rounded-0"></b-card-img>
+                <b-card-img :src="imgSrc" alt="Image" class="rounded-0"></b-card-img>
             </b-col>
             <b-col md="6">
                 <b-card-body>
                     <b-card-title :class="borderColor">{{ fullName }}</b-card-title>
                     <b-card-text>
-                        <small><i>{{ $props.user.gender }} / {{ $props.user.dob.age }} / {{ formatDate }}</i></small><br>
-                        <p class="pt-2">{{ $props.user.email }}</p>
-                        <small>{{ $props.user.phone }}</small><br>
-                        <small>{{ $props.user.cell }}</small>
+                        <small>{{ userInfo }}</small><br>
+                        <p class="pt-3">{{ userEmail }}</p>
+                        <small>{{ userPhone }}</small><br>
+                        <small>{{ userCell }}</small>
                     </b-card-text>
                 </b-card-body>
             </b-col>
@@ -33,21 +33,38 @@ export default defineComponent({
         }
     },
     setup(props) {
+        const imgSrc = computed((): string => {
+            return props.user.picture.large
+        })
         const fullName = computed((): string => {
             return props.user.name.first + ' ' + props.user.name.last
         })
-
         const formatDate = computed((): string => {
             return moment(String(props.user.dob.date)).format('MMMM DD, YYYY')
         })
-
+        const userInfo = computed((): string => {
+            return props.user.gender + ' / ' + props.user.dob.age + ' / ' + formatDate.value
+        })
+        const userEmail = computed((): string => {
+            return props.user.email
+        })
+        const userPhone = computed((): string => {
+            return props.user.phone
+        })
+        const userCell = computed((): string => {
+            return props.user.cell
+        })
         const borderColor = computed((): string => {
             return (props.user.gender === 'male') ? 'header-blue' : 'header-yellow'
         })
 
         return {
+            imgSrc,
             fullName,
-            formatDate,
+            userInfo,
+            userEmail,
+            userPhone,
+            userCell,
             borderColor
         }
     }
@@ -66,5 +83,9 @@ h4 {
     width: fit-content;
     margin: 0;
     line-height: 1;
+}
+
+.user-card {
+    max-width: 540px;
 }
 </style>
