@@ -1,5 +1,5 @@
 <template>
-    <b-card no-body class="overflow-hidden border-0 user-card">
+    <b-card no-body class="overflow-hidden border-0 user-card" @click="openUserModal()">
         <b-row no-gutters>
             <b-col md="6">
                 <b-card-img :src="imgSrc" alt="Image" class="rounded-0"></b-card-img>
@@ -32,7 +32,7 @@ export default defineComponent({
             required: true
         }
     },
-    setup(props) {
+    setup(props, {emit}) {
         const imgSrc = computed((): string => {
             return props.user.picture.large
         })
@@ -58,6 +58,10 @@ export default defineComponent({
             return (props.user.gender === 'male') ? 'header-blue' : 'header-yellow'
         })
 
+        function openUserModal() {
+            emit('openUserModal', props.user)
+        }
+
         return {
             imgSrc,
             fullName,
@@ -65,7 +69,8 @@ export default defineComponent({
             userEmail,
             userPhone,
             userCell,
-            borderColor
+            borderColor,
+            openUserModal
         }
     }
 })
@@ -85,6 +90,13 @@ h4 {
     line-height: 1;
 }
 
+h4:hover {
+    color: #FCE16D;
+}
+
+h4, img {
+    cursor: pointer;
+}
 .user-card {
     max-width: 540px;
 }
