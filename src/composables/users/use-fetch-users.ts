@@ -3,7 +3,7 @@ import { ExcludedFields } from "@/constants/api-filters"
 import { ref } from "@vue/reactivity"
 
 export async function useFetchUsers(): Promise<FetchUserReturn> {
-    const exc = ExcludedFields.toString()
+    const excludedFields = ExcludedFields.toString()
     const loading = ref<boolean>(true)
     const error = ref<string>('')
     const result = ref<UserResults>({
@@ -16,7 +16,7 @@ export async function useFetchUsers(): Promise<FetchUserReturn> {
     })
 
     try {
-        result.value = await fetch(`/api/?exc=${exc}&results=10`).then(res => res.json())
+        result.value = await fetch(`/api/?exc=${excludedFields}&results=10`).then(res => res.json())
     } catch(e) {
         error.value = (e as Error).message
     }
