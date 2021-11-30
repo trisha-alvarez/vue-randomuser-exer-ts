@@ -1,17 +1,17 @@
 <template>
-    <b-card no-body class="overflow-hidden border-0" style="max-width: 540px;">
+    <b-card no-body class="overflow-hidden border-0 user-card" @click="openUserModal()">
         <b-row no-gutters>
             <b-col md="6">
-                <b-card-img :src="$props.user.picture.large" alt="Image" class="rounded-0"></b-card-img>
+                <b-card-img :src="imgSrc" alt="Image" class="rounded-0"></b-card-img>
             </b-col>
             <b-col md="6">
                 <b-card-body>
                     <b-card-title :class="borderColor">{{ fullName }}</b-card-title>
                     <b-card-text>
-                        <small><i>{{ $props.user.gender }} / {{ $props.user.dob.age }} / {{ formatDate }}</i></small><br>
-                        <p class="pt-2">{{ $props.user.email }}</p>
-                        <small>{{ $props.user.phone }}</small><br>
-                        <small>{{ $props.user.cell }}</small>
+                        <small>{{ userInfo }}</small><br>
+                        <p class="pt-3">{{ userEmail }}</p>
+                        <small>{{ userPhone }}</small><br>
+                        <small>{{ userCell }}</small>
                     </b-card-text>
                 </b-card-body>
             </b-col>
@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { IUser } from '@/interface/user'
-import { defineComponent, PropType, computed } from 'vue'
+import { defineComponent, PropType, computed, ref } from 'vue'
 import moment from 'moment'
 
 export default defineComponent({
@@ -32,23 +32,36 @@ export default defineComponent({
             required: true
         }
     },
-    setup(props) {
+    setup(props, {emit}) {
+        const imgSrc = ref<string>(props.user.picture.large)
+        const userEmail = ref<string>(props.user.email)
+        const userPhone = ref<string>( props.user.phone)
+        const userCell = ref<string>(props.user.cell)
         const fullName = computed((): string => {
             return props.user.name.first + ' ' + props.user.name.last
         })
-
         const formatDate = computed((): string => {
             return moment(String(props.user.dob.date)).format('MMMM DD, YYYY')
         })
-
+        const userInfo = computed((): string => {
+            return props.user.gender + ' / ' + props.user.dob.age + ' / ' + formatDate.value
+        })
         const borderColor = computed((): string => {
             return (props.user.gender === 'male') ? 'header-blue' : 'header-yellow'
         })
+        const openUserModal = () => {
+            emit('openUserModal', props.user)
+        }
 
         return {
+            imgSrc,
             fullName,
-            formatDate,
-            borderColor
+            userInfo,
+            userEmail,
+            userPhone,
+            userCell,
+            borderColor,
+            openUserModal
         }
     }
 })
@@ -66,5 +79,16 @@ h4 {
     width: fit-content;
     margin: 0;
     line-height: 1;
+}
+
+h4:hover {
+    color: #FCE16D;
+}
+
+h4, img {
+    cursor: pointer;
+}
+.user-card {
+    max-width: 540px;
 }
 </style>

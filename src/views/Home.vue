@@ -1,5 +1,8 @@
 <template>
   <div class="home">
+    <b-row align-h="end">
+      <filters :gender="gender" :noOfResults="noOfResults" @refetchUsers="refetchUsers"/>
+    </b-row>
     <b-row align-h="around" v-if="users">
       <users :users="users"/>
     </b-row>
@@ -11,52 +14,54 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch } from 'vue'
-import { IUser, UserResults } from '@/interface/user'
-import { fetchUsers, fetchUsersByPage } from '@/composables/use-user'
+import { IUser } from '@/interface/user'
+import { useFetchUsers, useFetchUsersByFilter } from '@/composables/users/index'
 import users from '@/components/users.vue'
+import filters from '../components/filters.vue'
 
 export default defineComponent({
   name: 'Home',
   components: {
-    users
+    users,
+    filters
   },
   setup() {
-    const results = ref<UserResults>({
-      results: [],
-      info: {
-        seed: '',
-        results: 1,
-        page: 1
-      }
-    })
+    // results
     const users = ref<IUser[]>([])
     const usersSeed = ref<string>('')
-    const rows = ref<number>(100)
+
+    // filters
+    const gender = ref<string>('all')
+    const noOfResults = ref<number>(10)
     const page = ref<number>(1)
+    const rows = ref<number>(100)
 
     onMounted( async () => {
-      try {
-        results.value = await fetchUsers()
-        users.value = results.value.results
-        usersSeed.value = results.value.info.seed
-      } catch (e) {
-        alert('Error! \n' + e)
-      }
+      const { result } = await useFetchUsers()
+      users.value = result.value.results
+      usersSeed.value = result.value.info.seed
     })
 
-    watch(page, async () => {
-      try {
-        results.value = await fetchUsersByPage(page.value, usersSeed.value)
-        users.value = results.value.results
-      } catch (e) {
-        alert('Error! \n' + e)
-      }
+    watch([gender, noOfResults, page], async () => {
+      const { result } = await useFetchUsersByFilter(page.value, noOfResults.value, gender.value, usersSeed.value)
+      users.value = result.value.results
     })
+
+    const refetchUsers = async (newGender: string, newNoOfResults: number) => {
+      gender.value = newGender
+      noOfResults.value = newNoOfResults
+
+      const { result } = await useFetchUsersByFilter(page.value, noOfResults.value, gender.value, usersSeed.value)
+      users.value = result.value.results
+    }
 
     return {
       users,
       rows,
-      page
+      page,
+      gender,
+      noOfResults,
+      refetchUsers
     }
   }
 })

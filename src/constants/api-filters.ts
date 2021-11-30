@@ -1,4 +1,4 @@
-export const ExcFields: Array<string> = [
+export const ExcludedFields: Array<string> = [
     'login',
     'registered',
     'nat',

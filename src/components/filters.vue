@@ -1,0 +1,81 @@
+<template>
+    <nav class="navbar navbar-expand-lg navbar-light justify-content-between mb-5">
+        <h5 class="m-0">filters</h5>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link disabled">gender</a>
+                <a class="nav-item nav-link" @click="filterGender(GenderVal)" v-for="GenderVal in GenderFilters" :key="GenderVal">
+                    <span :class="isActive(GenderVal)">{{ GenderVal }}</span>
+                </a>
+                <a class="nav-item nav-link disabled">no. of results</a>
+                <a class="nav-item nav-link" @click="filterNoOfResults(NoOfResultsVal)" v-for="NoOfResultsVal in NoOfResults" :key="NoOfResultsVal">
+                    <span :class="isActive(NoOfResultsVal)">{{ NoOfResultsVal }}</span>
+                </a>
+                <a class="nav-item nav-link active" @click="filterReset()">reset</a>
+            </div>
+        </div>
+    </nav>
+</template>
+
+<script lang="ts">
+import { defineComponent, ref } from 'vue'
+import { GenderFilters } from '@/constants/gender-filters'
+import { NoOfResults } from '@/constants/number-results'
+
+export default defineComponent({
+    name: 'filters',
+    props: {
+        gender: {
+            type: String,
+            required: true
+        },
+        noOfResults: {
+            type: Number,
+            required: true
+        }
+    },
+    setup(props, { emit }) {
+        const gender = ref(props.gender)
+        const noOfResults = ref(props.noOfResults)
+
+        function isActive(val: string | number): string {
+            return (val === gender.value || val === noOfResults.value) ? 'header-blue' : ''
+        }
+        function filterReset(): void {
+            gender.value = 'all'
+            noOfResults.value = 10
+            emitRefetchUsers()
+        }
+        function filterGender(newGender: string): void {
+            gender.value = newGender
+            emitRefetchUsers()
+        }
+        function filterNoOfResults(newNoOfResults: number): void {
+            noOfResults.value = newNoOfResults
+            emitRefetchUsers()
+        }
+        function emitRefetchUsers(): void {
+            emit('refetchUsers', gender.value, noOfResults.value)
+        }
+
+        return {
+            GenderFilters,
+            NoOfResults,
+            isActive,
+            filterReset,
+            filterGender,
+            filterNoOfResults
+        }
+    },
+})
+</script>
+
+<style scoped>
+.nav-item{
+    cursor: pointer;
+}
+
+.nav-item:hover {
+    color: #FCE16D !important;
+}
+</style>
