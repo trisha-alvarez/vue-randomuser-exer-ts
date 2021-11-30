@@ -35,27 +35,27 @@ export default defineComponent({
         }
     },
     setup(props, { emit }) {
-        const currentGender = ref(props.gender)
-        const currentNoOfResults = ref(props.noOfResults)
+        const gender = ref(props.gender)
+        const noOfResults = ref(props.noOfResults)
 
         function isActive(val: string | number): string {
-            return (val === currentGender.value || val === currentNoOfResults.value) ? 'header-blue' : ''
+            return (val === gender.value || val === noOfResults.value) ? 'header-blue' : ''
         }
         function filterReset(): void {
-            currentGender.value = 'all'
-            currentNoOfResults.value = 10
+            gender.value = 'all'
+            noOfResults.value = 10
             emitRefetchUsers()
         }
         function filterGender(newGender: string): void {
-            currentGender.value = newGender
+            gender.value = newGender
             emitRefetchUsers()
         }
         function filterNoOfResults(newNoOfResults: number): void {
-            currentNoOfResults.value = newNoOfResults
+            noOfResults.value = newNoOfResults
             emitRefetchUsers()
         }
         function emitRefetchUsers(): void {
-            emit('refetchUsers', currentGender.value, currentNoOfResults.value)
+            emit('refetchUsers', gender.value, noOfResults.value)
         }
 
         return {
