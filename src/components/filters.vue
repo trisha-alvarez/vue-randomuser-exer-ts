@@ -8,8 +8,8 @@
                     <span :class="isActive(genderVal)">{{ genderVal }}</span>
                 </a>
                 <a class="nav-item nav-link disabled">no. of results</a>
-                <a class="nav-item nav-link" @click="filterNoOfResults(noOfResultsVal)" v-for="noOfResultsVal in nosOfResults" :key="noOfResultsVal">
-                    <span :class="isActive(noOfResultsVal)">{{ noOfResultsVal }}</span>
+                <a class="nav-item nav-link" @click="filterNoOfResults(NoOfResultsVal)" v-for="NoOfResultsVal in NoOfResults" :key="NoOfResultsVal">
+                    <span :class="isActive(NoOfResultsVal)">{{ NoOfResultsVal }}</span>
                 </a>
                 <a class="nav-item nav-link active" @click="filterReset()">reset</a>
             </div>
@@ -19,6 +19,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import { NoOfResults } from '@/constants/number-results'
 
 export default defineComponent({
     name: 'filters',
@@ -40,7 +41,6 @@ export default defineComponent({
             'male'
         ])
         const currentNoOfResults = ref(props.noOfResults)
-        const nosOfResults = ref<Array<number>>([10, 20, 50, 100, 120, 150, 200])
 
         function isActive(val: string | number): string {
             return (val === currentGender.value || val === currentNoOfResults.value) ? 'header-blue' : ''
@@ -64,7 +64,7 @@ export default defineComponent({
 
         return {
             genders,
-            nosOfResults,
+            NoOfResults,
             isActive,
             filterReset,
             filterGender,
