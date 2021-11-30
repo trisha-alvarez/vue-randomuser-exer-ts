@@ -4,8 +4,8 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-item nav-link disabled">gender</a>
-                <a class="nav-item nav-link" @click="filterGender(genderVal)" v-for="genderVal in genders" :key="genderVal">
-                    <span :class="isActive(genderVal)">{{ genderVal }}</span>
+                <a class="nav-item nav-link" @click="filterGender(GenderVal)" v-for="GenderVal in GenderFilters" :key="GenderVal">
+                    <span :class="isActive(GenderVal)">{{ GenderVal }}</span>
                 </a>
                 <a class="nav-item nav-link disabled">no. of results</a>
                 <a class="nav-item nav-link" @click="filterNoOfResults(NoOfResultsVal)" v-for="NoOfResultsVal in NoOfResults" :key="NoOfResultsVal">
@@ -19,6 +19,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import { GenderFilters } from '@/constants/gender-filters'
 import { NoOfResults } from '@/constants/number-results'
 
 export default defineComponent({
@@ -35,11 +36,6 @@ export default defineComponent({
     },
     setup(props, { emit }) {
         const currentGender = ref(props.gender)
-        const genders = ref<Array<string>>([
-            'all',
-            'female',
-            'male'
-        ])
         const currentNoOfResults = ref(props.noOfResults)
 
         function isActive(val: string | number): string {
@@ -63,7 +59,7 @@ export default defineComponent({
         }
 
         return {
-            genders,
+            GenderFilters,
             NoOfResults,
             isActive,
             filterReset,
