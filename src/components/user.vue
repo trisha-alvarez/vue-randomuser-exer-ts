@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { IUser } from '@/interface/user'
-import { defineComponent, PropType, computed } from 'vue'
+import { defineComponent, PropType, computed, ref } from 'vue'
 import moment from 'moment'
 
 export default defineComponent({
@@ -33,9 +33,10 @@ export default defineComponent({
         }
     },
     setup(props, {emit}) {
-        const imgSrc = computed((): string => {
-            return props.user.picture.large
-        })
+        const imgSrc = ref<string>(props.user.picture.large)
+        const userEmail = ref<string>(props.user.email)
+        const userPhone = ref<string>( props.user.phone)
+        const userCell = ref<string>(props.user.cell)
         const fullName = computed((): string => {
             return props.user.name.first + ' ' + props.user.name.last
         })
@@ -45,20 +46,10 @@ export default defineComponent({
         const userInfo = computed((): string => {
             return props.user.gender + ' / ' + props.user.dob.age + ' / ' + formatDate.value
         })
-        const userEmail = computed((): string => {
-            return props.user.email
-        })
-        const userPhone = computed((): string => {
-            return props.user.phone
-        })
-        const userCell = computed((): string => {
-            return props.user.cell
-        })
         const borderColor = computed((): string => {
             return (props.user.gender === 'male') ? 'header-blue' : 'header-yellow'
         })
-
-        function openUserModal() {
+        const openUserModal = () => {
             emit('openUserModal', props.user)
         }
 

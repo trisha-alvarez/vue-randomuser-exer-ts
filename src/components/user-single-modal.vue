@@ -34,7 +34,7 @@
 
 <script lang="ts">
 import { IUser } from '@/interface/user'
-import { defineComponent, PropType, computed } from 'vue'
+import { defineComponent, PropType, computed, ref } from 'vue'
 import moment from 'moment'
 
 export default defineComponent({
@@ -46,29 +46,17 @@ export default defineComponent({
         }
     },
     setup(props, {emit}) {
-        const imgSrc = computed((): string => {
-            return props.user.picture.large
-        })
+        const imgSrc = ref<string>(props.user.picture.large)
+        const userGender = ref<string>(props.user.gender)
+        const userAge = ref<number>(props.user.dob.age)
+        const userEmail = ref<string>(props.user.email)
+        const userPhone = ref<string>(props.user.phone)
+        const userCell = ref<string>(props.user.cell)
         const fullName = computed((): string => {
             return props.user.name.title + '. ' + props.user.name.first + ' ' + props.user.name.last
         })
-        const userGender = computed((): string => {
-            return props.user.gender
-        })
         const userDob = computed((): string => {
             return moment(String(props.user.dob.date)).format('MMMM DD, YYYY')
-        })
-        const userAge = computed((): number => {
-            return props.user.dob.age
-        })
-        const userEmail = computed((): string => {
-            return props.user.email
-        })
-        const userPhone = computed((): string => {
-            return props.user.phone
-        })
-        const userCell = computed((): string => {
-            return props.user.cell
         })
         const borderColor = computed((): string => {
             return (props.user.gender === 'male') ? 'header-blue' : 'header-yellow'
