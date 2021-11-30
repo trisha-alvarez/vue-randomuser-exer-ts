@@ -2,27 +2,35 @@ import { Ref } from "@vue/reactivity"
 
 export interface IUser {
     gender: string
-    name: {
-        title: string
-        first: string
-        last: string
-    }
-    dob: {
-        date: string
-        age: number
-    }
+    name: IName,
+    dob: IDob,
     email: string
     phone: string
     cell: string
-    id: {
-        name: string
-        value: string
-    }
-    picture: {
-        large: string
-        medium: string
-        thumbnail: string
-    }
+    id: IUserID,
+    picture: IPicture
+}
+
+export interface IName {
+    title: string
+    first: string
+    last: string
+}
+
+export interface IDob {
+    date: string
+    age: number
+}
+
+export interface IUserID {
+    name: string
+    value: string
+}
+
+export interface IPicture {
+    large: string
+    medium: string
+    thumbnail: string
 }
 
 export type UserResults = {
